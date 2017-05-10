@@ -24,7 +24,9 @@ const (
 )
 
 const (
-	LevelDebug = (iota + 1) * 100
+	LevelDebug3  = (iota + 1) * 100
+	LevelDebug2
+	LevelDebug
 	LevelInfo
 	LevelNotice
 	LevelWarning
@@ -36,6 +38,8 @@ const (
 
 var (
 	levels = map[int]string{
+		LevelDebug3:    "DEBUG3",
+		LevelDebug2:    "DEBUG2",
 		LevelDebug:    "DEBUG",
 		LevelInfo:     "INFO",
 		LevelNotice:   "NOTICE",
@@ -164,6 +168,15 @@ func (l *Logger) Outputln(level, calldepth int, a ...interface{}) error {
 	return nil
 }
 
+func (l *Logger) ErrDebug3(err error) {
+	l.Err(LevelDebug3, levelDepth, err)
+}
+
+func (l *Logger) ErrDebug2(err error) {
+	l.Err(LevelDebug2, levelDepth, err)
+}
+
+
 func (l *Logger) ErrDebug(err error) {
 	l.Err(LevelDebug, levelDepth, err)
 }
@@ -200,6 +213,14 @@ func (l *Logger) ErrFatal(err error) {
 		l.Err(LevelFatal, levelDepth, err)
 		os.Exit(1)
 	}
+}
+
+func (l *Logger) Debug3(a ...interface{}) {
+	l.Output(LevelDebug3, levelDepth, a...)
+}
+
+func (l *Logger) Debug2(a ...interface{}) {
+	l.Output(LevelDebug2, levelDepth, a...)
 }
 
 func (l *Logger) Debug(a ...interface{}) {
@@ -239,6 +260,14 @@ func (l *Logger) Fatal(a ...interface{}) {
 	os.Exit(1)
 }
 
+func (l *Logger) Debug3f(format string, a ...interface{}) {
+	l.Outputf(LevelDebug3, levelDepth, format, a...)
+}
+
+func (l *Logger) Debug2f(format string, a ...interface{}) {
+	l.Outputf(LevelDebug2, levelDepth, format, a...)
+}
+
 func (l *Logger) Debugf(format string, a ...interface{}) {
 	l.Outputf(LevelDebug, levelDepth, format, a...)
 }
@@ -275,6 +304,15 @@ func (l *Logger) Fatalf(format string, a ...interface{}) {
 	l.Outputf(LevelFatal, levelDepth, format, a...)
 	os.Exit(1)
 }
+
+func (l *Logger) Debug3ln(a ...interface{}) {
+	l.Outputln(LevelDebug3, levelDepth, a...)
+}
+
+func (l *Logger) Debug2ln(a ...interface{}) {
+	l.Outputln(LevelDebug2, levelDepth, a...)
+}
+
 
 func (l *Logger) Debugln(a ...interface{}) {
 	l.Outputln(LevelDebug, levelDepth, a...)
